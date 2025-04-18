@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>製作貼文</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
+    input, textarea { width: 100%; margin: 10px 0; padding: 10px; font-size: 16px; }
+    button { padding: 12px 20px; font-size: 16px; background: #28a745; color: #fff; border: none; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h2>📝 製作 Telegram 貼文</h2>
+
+  <label>💬 貼文文字（支援 Custom Emoji）</label>
+  <textarea id="text" rows="5" placeholder="🎁 註冊送 RM388...\n🔥 免費紅包！"></textarea>
+
+  <label>🖼 圖片網址（可選）</label>
+  <input id="img" placeholder="https://i.imgur.com/xxxxx.jpg" />
+
+  <label>🔘 按鈕文字</label>
+  <input id="btn" placeholder="💸 Claim Sekarang" />
+
+  <label>🔗 按鈕連結</label>
+  <input id="link" placeholder="https://yourpromo.link" />
+
+  <button onclick="sendPost()">🚀 發送貼文</button>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+
+    function sendPost() {
+      const text = document.getElementById("text").value;
+      const img = document.getElementById("img").value;
+      const btn = document.getElementById("btn").value;
+      const link = document.getElementById("link").value;
+
+      let message = text + "\n\n";
+
+      if (btn && link) {
+        message += `<a href=\"${link}\">${btn}</a>`;
+      }
+
+      if (img) {
+        message = `<a href=\"${img}\">&#8205;</a>\n` + message;
+      }
+
+      tg.sendData(JSON.stringify({ message }));
+      tg.close();
+    }
+
+    tg.expand();
+  </script>
+</body>
+</html>
